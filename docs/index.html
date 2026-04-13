@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geodesic Mixing</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Geodesic Mixing</h1>
+            <p class="subtitle">Multiscale spectral flux energy minimisation for automatic DJ mixing</p>
+        </div>
+    </header>
+
+    <main>
+        <!-- Upload / Track list -->
+        <section class="panel" id="load-section">
+            <div class="panel-header">
+                <h2>Tracks</h2>
+                <button id="gen-test-btn" class="btn btn-secondary">Generate Test Tones</button>
+            </div>
+            <div id="drop-zone" class="drop-zone">
+                <div class="drop-zone-inner">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M12 5v14M5 12l7-7 7 7"/>
+                    </svg>
+                    <p>Drop audio files here</p>
+                    <span class="hint">WAV, MP3, OGG, FLAC &mdash; or click to browse</span>
+                    <input type="file" id="file-input" multiple accept="audio/*" hidden>
+                </div>
+            </div>
+            <div id="track-list" class="track-list"></div>
+        </section>
+
+        <!-- Timeline -->
+        <section class="panel" id="timeline-section" style="display:none">
+            <div class="panel-header">
+                <h2>Timeline</h2>
+                <div class="timeline-controls">
+                    <span id="timeline-info" class="info-text"></span>
+                    <button id="zoom-in-btn" class="btn btn-small">+</button>
+                    <button id="zoom-out-btn" class="btn btn-small">&minus;</button>
+                </div>
+            </div>
+            <div class="timeline-wrapper">
+                <canvas id="timeline-canvas"></canvas>
+            </div>
+        </section>
+
+        <!-- Transport & Energy -->
+        <section class="panel controls-panel" id="controls-section" style="display:none">
+            <div class="control-row">
+                <div class="control-group">
+                    <button id="play-btn" class="btn btn-primary">&#9654; Play</button>
+                    <button id="stop-btn" class="btn">&#9632; Stop</button>
+                </div>
+                <div class="control-group">
+                    <button id="optimize-btn" class="btn btn-accent">&#9889; Optimize</button>
+                    <label class="toggle-label">
+                        <input type="checkbox" id="adaptive-toggle">
+                        <span class="toggle-switch"></span>
+                        Adaptive
+                    </label>
+                </div>
+                <div class="energy-display" id="energy-display">
+                    <span class="energy-label">E =</span>
+                    <span class="energy-value" id="energy-value">&mdash;</span>
+                </div>
+            </div>
+            <div id="status-bar" class="status-bar"></div>
+        </section>
+
+        <!-- Gain Envelopes -->
+        <section class="panel" id="gain-section" style="display:none">
+            <div class="panel-header">
+                <h2>Gain Envelopes</h2>
+                <span class="hint">Drag points to shape transitions &middot; C1 cubic Hermite interpolation</span>
+            </div>
+            <div id="gain-editors"></div>
+        </section>
+
+        <!-- Analysis Visualisation -->
+        <section class="panel" id="viz-section" style="display:none">
+            <div class="panel-header">
+                <h2>Analysis</h2>
+            </div>
+            <div class="viz-grid">
+                <div class="viz-item">
+                    <h3>Mixed Spectrogram</h3>
+                    <canvas id="mix-spec-canvas"></canvas>
+                </div>
+                <div class="viz-item">
+                    <h3>Spectral Flux &delta;<sup>2</sup></h3>
+                    <canvas id="flux-canvas"></canvas>
+                </div>
+                <div class="viz-item" id="weights-panel" style="display:none">
+                    <h3>Coupling Weights &omega;<sub>k</sub></h3>
+                    <canvas id="weights-canvas"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Export -->
+        <section class="panel" id="export-section" style="display:none">
+            <div class="panel-header">
+                <h2>Export</h2>
+            </div>
+            <div class="control-row">
+                <button id="export-config-btn" class="btn btn-secondary">Export Config (JSON)</button>
+                <button id="export-wav-btn" class="btn btn-secondary">Export Mix (WAV)</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Based on <em>Geodesic Mixing: Multiscale Spectral Flux as the Energy Functional for Audio Transition Landscapes</em> (v8, 2026)</p>
+    </footer>
+
+    <script src="js/dsp.js"></script>
+    <script src="js/engine.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
